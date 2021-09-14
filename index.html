@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <title>WeatherInfo.com</title>
+</head>
+<body>
+   <div class="container pb-3">
+       <div class="row">
+           <div class="col">
+               <form>
+                   <h3 class="alert text-center">Weather</h3> <!-- this class(alert text-center) makes the weather heading to the center-->
+                    <div class="mb-3">
+                        <select name="countrylist" id="countrylist" class="form-select" >
+                            
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <select name="statelist" id="statelist" class="form-select" disabled>
+                            <option value="">Select State</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <select name="citylist" id="citylist" class="form-select" disabled>
+                            <option value="">Select City</option>
+                        </select>
+                    </div>
+                </form>
+
+                <div class="d-flex justify-content-center" id="weatherwidget">
+                   <div class="card">
+                       <div class="card-body">
+                        <h5 class="card-title">
+                            New Delhi, IN
+                        </h5>
+                        <p>Friday, March 05, 2021</p>
+                        <div id="tempcard">
+                            <h6 class="card-subtitle mb2 cel">24</h6>
+                            <p class="card-text">Feels like: 24.09 °C</p>
+                            <p class="card-text">Max: 24.09°F, Min: 23</p>
+                        </div>
+                        <div id="img-container">Clean <img src="..." /></div>
+                        <p>Clean</p>
+                       </div>
+                   </div> 
+                </div>
+           </div>
+       </div>
+   </div> 
+</body>
+<script src="script.js"></script>
+</html>
