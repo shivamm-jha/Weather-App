@@ -34,17 +34,6 @@ const getCountries = async (fieldName, ...args) => {
   const countries = await response.json();
   return countries;
 };
-//  function to get weather
-
-// const getWeather = async  (cityName, countryCode)=>{
-//     const apiEndPoint = `${config.wUrl}weather?q=${cityName},${countryCode.toLowerCase()}&APPID=${config.wKey}`;
-//     const response = await fetch(apiEndPoint);
-//     if(response.status!=200){
-//         throw new Error(`something went wrong, status code : ${response.status}`);
-//     }
-//     const weather = await response.json;
-//     return weather;
-// };
 
 const getWeather = async (cityName, Countrycode, units = "metric") => {
   const apiEndPoint = `${
@@ -72,7 +61,19 @@ const getWeather = async (cityName, Countrycode, units = "metric") => {
     console.log(error);
   }
 };
+const getDateTime = (unixTimeStamp)=>{
+  const milliSeconds = unixTimeStamp * 1000;
+  const dateObject = new Date(milliSeconds);
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  const humanDateFormate = dateObject.toLocaleDateString("en-US", options);
+  return humanDateFormate;
 
+}
 const displayWeather = (data) => {
   const weatherWidget = `
     <div class="card">
@@ -80,25 +81,46 @@ const displayWeather = (data) => {
          <h5 class="card-title">
              ${data.name}, ${data.sys.country}
          </h5>
-         <p>Friday, March 05, 2021</p>
+         <p>${getDateTime(data.dt)}</p>
          <div id="tempcard">
              <h6 class="card-subtitle mb2 cel">${data.main.temp}</h6>
-             <p class="card-text">Feels like: ${data.main.temp} °C</p>
-             <p class="card-text">Max: ${data.main.temp_max}, ${data.main.temp_min}</p>
+             <p class="card-text">Feels like: ${data.main.feels_like} °C</p>
+             <p class="card-text">Max: ${data.main.temp_max}, Min: ${
+    data.main.temp_min
+  }</p>
          </div>
-         <div id="img-container">${data.weather.main} <img src="..." /></div>
-         <p>${data.weather.main}</p>
+
+         ${data.weather
+           .map(
+             (
+               w
+             ) => `<div id="img-container">${w.main} <img src="https://openweathermap.org/img/wn/${w.icon}.png" /></div>
+         <p>${w.main}</p>`
+           )
+           .join("\n")}
         </div>
-    </div> `;
+         
+    </div> `
+
+    weatherDiv.innerHTML=weatherWidget;
 };
+
+
+const getLoader=()=>{
+  return `<div class="spinner-grow text-info" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>`;
+};
+
 
 const countriesListDropDown = document.querySelector("#countrylist");
 const statesListDropDown = document.querySelector("#statelist");
 const citiesListDropDown = document.querySelector("#citylist");
+const weatherDiv = document.querySelector("#weatherwidget");
 
 document.addEventListener("DOMContentLoaded", async () => {
   const countries = await getCountries();
-  //    console.log(countries);
+  
   let countriesOptions = "";
   if (countries) {
     countriesOptions += `<option value="">Select Country</option>`;
@@ -154,6 +176,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   citiesListDropDown.addEventListener("change", async function () {
     const selectedCountryCode = countriesListDropDown.value;
     const selectedCity = this.value;
+    weatherDiv.innerHTML= getLoader();
     const weatherinfo = await getWeather(selectedCity, selectedCountryCode);
+    displayWeather(weatherinfo);
   });
 });
