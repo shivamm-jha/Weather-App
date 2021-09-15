@@ -64,3 +64,11 @@ body > footer{
        
     }
 }
+@media(max-height:700px){
+    body > footer{
+        margin-bottom: -2rem;
+    }
+    .social-icons > span > a{
+        font-size: 1rem;
+    }
+}
