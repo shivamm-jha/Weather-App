@@ -37,3 +37,15 @@ body{
     margin-top: 0.3rem;
     font-weight: 400;
 }
+
+body > footer{
+    text-align: center;
+    margin-top: 2rem;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+.social-icons > span > a{
+    font-size: 1.5rem;
+    color: black;
+    padding: .5rem;
+}
